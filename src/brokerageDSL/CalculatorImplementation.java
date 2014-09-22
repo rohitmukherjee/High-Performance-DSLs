@@ -1,4 +1,4 @@
-package dsl;
+package brokerageDSL;
 
 public class CalculatorImplementation implements Calculator {
 	@Override

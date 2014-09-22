@@ -1,4 +1,4 @@
-package dsl;
+package brokerageDSL;
 
 public class Trade {
 	private Account account;
