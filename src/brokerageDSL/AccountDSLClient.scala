@@ -5,7 +5,7 @@ class AccountDSLClient {
   // We define an implicit which can do the conversion from Java Account -> Scala AccountDSL
   implicit def enrichAccount(account: Account): AccountDSL = new AccountDSL(account)
 
-  def main(arguments: Array[String]) = {
+  def usage(arguments: Array[String]) = {
     val threshold = 100
     val acc1 = new Account("acc-1", "David P.")
     val acc2 = new Account("acc-2", "John S.")

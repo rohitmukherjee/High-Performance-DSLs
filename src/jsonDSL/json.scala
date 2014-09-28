@@ -36,7 +36,7 @@ object JSON {
 	  data.foreach(print _)
 	}
 
-	def main(args: Array[String]): Unit = {
+	def jsonClient(args: Array[String]): Unit = {
 		val json = addPair("Hello", ('I','A','M','G','O','O','D'))
 		var list = addToList(MutableList(json), Map("car" -> "honda"))
 		list = addToList(list, Map("car" -> "mercedes"))
@@ -44,6 +44,7 @@ object JSON {
 
 		println("Using Syntactic Sugar")
 		println("*********************")
+
 		// Using new sugar
 		val json2 =  ::(::(
 		    MutableList(
