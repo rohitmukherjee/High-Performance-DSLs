@@ -131,14 +131,45 @@ Some of the primary design choices in the project are summarized below:
 
 \end{itemize}
 \subsection{Design Pattern Choices}
+
+Some of the design patterns applied in the DSL so far are:
+\begin{itemize}
+\item Singleton Pattern
+\item Builder Pattern
+\item Factory Pattern
+\end{itemize}
+
+Martin Fowler's concept of the "Fluent Interface" can be extended to Scala which models behaviour using traits rather than interfaces. This in conjunction with the builder pattern lead to a declarative syntax. One of the uses of the builder is shown below.
+\begin{center}
+    \includegraphics[width=400px]{figures/builder_pattern.png}
+\end{center}
 \subsection{Design/Investigation Alternatives}
 \subsection{Thoughts on preliminary investigation}
 \subsection{Usage}
 \newpage
 \section{Research Plan}
+The goal for this semester was to read and apply the methods mentioned in literature and build a DSL that can be used for system testing. This process helped understand some of the patterns that can be applied in internal DSLs, requirements and specifications of the DSL itself and usage scenarios.
+\bigskip
+
+\noindent
+The broad goals for next semester will be to apply some optimization techniques to improve performance of the DSL and also extract it to a more general purpose of testing. The research goals for the next semester are as follows:
+\begin{itemize}
+\item Improve performance through usage of Delite pipeline or other run - time code optimization techniques
+\item Extend suite of functionality to include more kinds of tests such as
+    \begin{itemize}
+    \item Performance Tests
+    \item Unit Tests
+    \item Integration Tests
+    \end{itemize}
+\item Greater automation and flexibility as far as test execution is concerned
+\item Cleaner syntax and idioms
+\item Ease of integration with existing software projects for testing purposes
+\end{itemize}
+\bigskip
+
+\noindent
+A tentative timeline for the aforementioned research plan is shown below:
+\centerline{\includegraphics[width=600px]{figures/timeline.png}}
 \newpage
 \section{References}
-
-
-
 \end{document}
