@@ -3,29 +3,27 @@
 \usepackage{graphicx}
 \PassOptionsToPackage{nottoc}{tocbibind}
 \usepackage{tocbibind}
-\usepackage{hyperref}
 \usepackage[english]{babel}
 \title{High Performance DSL's via OCaml}
 \begin{document}
 \input{./title.tex}
-\hypersetup{linkcolor=blue}
 \maketitle
 
 \tableofcontents
 
 \newpage
 \section{Abstract}
-Domain-specific languages can provide a high-level user-oriented view for software development. Strongly-typed functional languages, like OCaml, can provide a good platform for developing domain specific languages.A DSL is a programming language that’s targeted at a specific problem; other programming languages that you use are more general purpose. It contains the syntax and semantics that model concepts at the same level of abstraction that the problem domain offers.
+Domain-specific languages can provide a high-level user-oriented view for software development. Strongly-typed functional languages, like OCaml, can provide a good platform for developing domain specific languages. DSLs contains the syntax and semantics that model concepts at the same level of abstraction that the problem domain offers. Over the semester, various techniques to develop high - performance DSLs have been explored using the Scala programming language. The domain chosen for developing the DSL is software system testing.
 \bigskip
 
 \noindent
-System testing is necessary because many of the criteria for test selection at unit and integration testing result in the production of a set of test cases which are unrepresentative of the operating conditions in the live environment. There aren't many mature frameworks and tools available for system testing which can make the process painless and convenient. Throughout the course of this project, state of the art DSL design techniques coupled with powerful expressiveness and clean syntax of the Scala language are used to develop a DSL for system testing.
+System testing is necessary because many of the criteria for test selection at unit and integration testing result in the production of a set of test cases which are unrepresentative of the operating conditions in the live environment. There aren't many mature frameworks and tools available for system testing which can make the process painless and convenient. Throughout the course of this project, state of the art DSL design techniques coupled with powerful expressiveness and clean syntax of the Scala language are used to develop a DSL for system testing. This report takes a look at the key learnings, approaches taken, DSL developed so far and what it could be in the future.
 
 \newpage
 \section{Introduction}
 
 \noindent
-Domain specific languages also provide a promising path to automatically compile code to parallel, heterogeneous and distributed hardware. However, in practice high performance DSLs still require considerable software expertise to develop and force users into tool-chains that complicate  prototyping and debugging \cite{delite}. The purpose of this project was to develop a DSL targeting a particular domain which was both performant, easy to use and easy to debug. The domain chosen for this project is that of software testing.
+Domain specific languages provide a promising path to automatically compile code to parallel, heterogeneous and distributed hardware. However, in practice high performance DSLs still require considerable software expertise to develop and force users into tool-chains that complicate  prototyping and debugging \cite{delite}. The purpose of this project was to develop a DSL targeting a particular domain which was both performant, easy to use and easy to debug. The domain chosen for this project is that of software testing.
 
 \subsection{Problem}
 Testing is an integral part of software development. Unit Testing frameworks like JUnit, NUnit, TestNG and ScalaTest have been around for quite some time and allow software developers to conveniently and reliably test functionality in the form of Unit Tests. Proponents of "agile methodologies" highlight the importance of Test - Driven Development to ensure that the code base is well wrapped in tests and any sorts of regressions caused by code changes can be easily tracked and fixed \cite{tdd}. Test - Driven Development also prevents legacy code from being written, as comprehensive test suites are one of the best kinds of documentation code can come with.
@@ -55,7 +53,7 @@ There are several ways of designing and implementing Domain Specific Languages, 
 
 \subsection{Domain Specific Language Design}
 Ghosh discusses two approaches to constructing internal DSLs - \textbf{Embedded} and \textbf{Generative} \cite{dslsInAction}. Statically typed languages offer types as one of the means to abstract domain semantics and make the surface syntax of the DSL concise. Typed models come with a
-guarantee of some level of implicit consistency in the programming model. The biggest advantage of this technique is that because your DSL’s type system is embedded in the type system of the host language, your type system is automatically type-checked by the language compiler. This approach means that DSL users are able to use the IDE for debugging and tooling. In our System Testing DSL, this embedded DSL approach has been explored.
+guarantee of some level of implicit consistency in the programming model. The biggest advantage of this technique is that because the DSL’s type system is embedded in the type system of the host language, the type system is automatically type-checked by the language compiler. This approach means that DSL users are able to use the IDE for debugging and tooling. In our System Testing DSL, this embedded DSL approach has been explored.
 \bigskip
 
 \begin{figure}[h!]
@@ -65,7 +63,7 @@ guarantee of some level of implicit consistency in the programming model. The bi
 \end{figure}
 
 \noindent
-Languages like Haskell and Scala offer advanced static typing with type inference allowing DSL developers to write embedded DSLs without having to resort to code generation techniques, pre - processors or macros. As a DSL user, type abstractions can be composed directly. This is the approach that has been taking while writing the System Testing DSL. Ghosh talks about using method chaining and fluent interfaces in DSL development as this gives a finished, declarative, natural language like feel \cite{fluentInterface}. The builder pattern is one more way in which DSL's can be made more expressive to the domain user. The builder pattern along with method chaining have been incorporated into the System Testing DSL to provide ease of use and expressivity.
+Languages like Haskell and Scala offer advanced static typing with type inference allowing DSL developers to write embedded DSLs without having to resort to code generation techniques, pre - processors or macros. As a DSL user, type abstractions can be composed directly. This is the approach that has been taking while writing the System Testing DSL. Ghosh talks about using method chaining and fluent interfaces in DSL development as this gives a finished, declarative, natural language like feel \cite{fluentInterface}. The builder pattern is one more way in which DSL's can be made more expressive to the domain user. The builder pattern along with method chaining have been incorporated into the System Testing DSL to provide ease of use and expressiveness.
 
 \subsection{Lightweight Modular Staging: A run - time code generation approach}
 Rompf and Odersky (2010) talk about an alternative approach to writing DSLs in Scala using a run - time code generation approach called lightweight modular staging \cite{lms}. This approach involves both a generative and an embedded approach. The DSL is provided as a library and involves run - time code generation in different stages. The approach is called \textbf{Light - Weight Modular Staging (LMS)}. The approach is lightweight because the whole framework is implemented as a library and the staged code is very shallowly embedded into the program generator. Some of the features of lightweight modular staging are described below:
@@ -123,9 +121,12 @@ Some of the primary design choices in the project are summarized below:
 \item \textbf{Choice of Approach 1(Internal, Embedded DSL with no staging)}: Instead of starting off development using the Delite Framework or the Lightweight Modular Staging Library, I decided to write a DSL with an embedded type system and no run - time code generation or optimizations. This allowed me to understand the important types and constructs required in the domain and develop a clean syntax. It also allowed me to model the domain without concerning myself with lower level optimizations prematurely.
 
 \item \textbf{Choice of Scala as host language}: The adoption of Scala has grown tremendously over the last 5 years in the industry with large organizations such as Twitter, Bank of America Merrill Lynch and Groupon using it for DSL design \cite{scala}. The expressive syntax and intelligent type inference allows a clean domain syntax and type system to be developed. Portability of code because of the JVM platform is another factor promoting Scala's adoption \cite{scala}. The reasons for using Scala are summarized below:
-\begin{center}
+
+\begin{figure}[h!]
+  \centering
     \includegraphics[width=400px]{figures/scala_motivation.png}
-\end{center}
+  \caption{Motivation for using Scala}
+\end{figure}
 
 \end{itemize}
 \subsection{Design Pattern Choices}
@@ -146,6 +147,28 @@ Fowler's concept of the "Fluent Interface" can be extended to Scala which models
   \caption{An example of builder pattern usage}
 \end{figure}
 
+\subsection{Overview of Code}
+\begin{itemize}
+\item package systemTestingDSL
+    \begin{itemize}
+        \item \textbf{Trait Runnable} - Models behaviour of any executable/command that can be run
+        \item \textbf{Case Class General Runnable} - Models implementation of any executable/command 
+        \item \textbf{Trait Parser} - Mix - In containing methods for matching and parsing test output
+        \item \textbf{Case Class SleekTestCase} - Test Case especially for Sleek verification
+        \item \textbf{Case Class TestCase} - Any Test Case
+        \item \textbf{Case Class GenericTestSuite} - Automated testing of files of a certain type found          using regex matching
+        \item \textbf{Object Usage} - Demonstrates usages of DSL developed
+    \end{itemize}
+\item package systemTestingDSL.fileSystemUtilities
+    \begin{itemize}
+        \item Singleton object performing file matching/reading/writing and output generation
+    \end{itemize}
+\item package systemTestingDSL.matchers
+    \begin{itemize}
+    \item \textbf{Trait Matcher} - Models behaviour for any generic matcher
+    \item \textbf{DiffMatcher} - Matches two files based on their diff
+    \end{itemize}
+\end{itemize}
 
 \subsection{Functionality Completed}
 Currently the DSL has the following features:
