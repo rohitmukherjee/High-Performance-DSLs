@@ -1,0 +1,146 @@
+\section{Design Choices}
+
+Some of the primary design choices in the project are summarized below:
+
+\subsection{Choice of Scala as Host Language}
+\textbf{Choice of Scala as host language}: The adoption of Scala has grown tremendously over the last 5 years in the industry with large organizations such as Twitter, Bank of America Merrill Lynch and Groupon using it for DSL design \cite{scala}. The expressive syntax and intelligent type inference allows a clean domain syntax and type system to be developed. Portability of code because of the JVM platform is another factor promoting Scala's adoption \cite{scala}. The reasons for using Scala are summarized below:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=500px]{figures/scala_motivation.png}
+  \caption{Motivation for using Scala}
+\end{figure}
+
+\subsection{Comparison of Scala and Python for DSL implementation}
+
+The reporting DSL was developed in both Scala and Python to assess the trade - offs. The functionality desired in the DSL was:
+\begin{itemize}
+\item Check out different commits for a particular \textbf{mercurial} branch
+\item Check out different branches for a particular \textit{mercurial} repository
+\item Ease of configuring system and ability to hot - switch settings during run - time
+\item \textbf{Object Orientation} for readability and maintainability
+\item Ability to run tests on all branches/commits and report results reliably
+\end{itemize}
+
+\noindent
+\textbf{Dynamic languages}, such as Python, Ruby, Dylan, LISP, Scheme, and Smalltalk, are languages designed to increase programmer efficiency. Dynamic
+languages enables faster development cycles by allowing parts of a program to be modified at run time. Functions may be introduced, removed, or changed, classes added, class inheritance modified, and modules can be created or removed. This allows a programmer to quickly test a new feature, or a new piece of code. Furthermore, modern dynamic languages, such as Python and Ruby, provide syntax and high-level programming models that are easy to learn, resulting in higher productivity \cite{lund}.
+\bigskip
+
+\subsubsection{Scala vs.Python Advantages}
+\noindent
+Some of the advantages of Python over Scala were:
+\begin{itemize}
+\item Dynamic Language
+\item Support for scripting
+\item Lower development time
+\end{itemize}
+
+\noindent
+Some of the advantages of Scala over Python were:
+\begin{itemize}
+\item Greater type safety due to compile time checking
+\item Better collections hierarchy
+\item Expressiveness
+\item High readability
+\end{itemize}
+
+\subsubsection{Conclusion - Scala is more suitable for DSL development}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=500px]{figures/reportingDSL.png}
+  \caption{Reporting DSL syntax}
+\end{figure}
+
+\noindent
+Overall, \textbf{Scala} was concluded to be more suitable for DSL development. The primary reason for this was \textit{type - safety}. DSLs can grow to several tens of thousands of lines of code and type - safety makes development a lot more robust and secure.
+
+\subsection{Choice of Embedded DSL Approach}
+Instead of starting off development using the Delite Framework or the Lightweight Modular Staging Library, I decided to write a DSL with an embedded type system and no run - time code generation or optimizations. This allowed me to understand the important types and constructs required in the domain and develop a clean syntax. It also allowed me to model the domain without concerning myself with lower level optimizations prematurely. Some of the advantages of creating an embedded DSL were:
+\begin{itemize}
+\item \textbf{Lightweight} - The DSL has been written as a \textit{library} which can be easily included in other projects by simply adding the .JAR file to the project build path.
+\item \textbf{Compile time type checking} - Since there is no code generated at run - time or any meta - programming, all types are checked at compile - time giving us the added support of the Scala compiler.
+\item \textbf{Easily maintainable and extensible} - Since the source code is written using the Scala language, it is readable and easily extensible if new functionality is desired. The system also follows the \textbf{open - closed} principle. It is open for extension but closed for modification.
+\item \textbf{Emphasis on Semantics} - Domain rules can vary and can require extension or revision. It is very important that the DSL provides \textit{Pluggable semantics} according to Ghosh \cite{dslsInAction}. Appropriate usage of Scala types including \textit{traits, types and objects} make the semantics quite meaningful. For example, when we want to add a test, we can write syntax like:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[height=60px]{figures/declarative_syntax.png}
+  \caption{Meaningful Semantics}
+\end{figure}
+
+\item \textbf{Loose Coupling} - Loose coupling between the composed DSLs, and their rules, allowing all the rules to evolve independently.
+\item \textbf{Representation Independence} - The DSL does not contain any embedded implementation details and merely shows domain abstractions.
+\end{itemize}
+
+\input{design_patterns.tex}
+\subsection{Configuration Media}
+
+The DSLs developed require configuration in a human - readable format so that developers can conveniently integrate them into the testing work - flow. To keep both DSLs decoupled, they each have a configuration file. They can be configured by using YAML markup.  YAML, or "YAML Ain't Markup Language", is "a human friendly data serialization standard for all programming languages."
+\bigskip
+
+\noindent
+\textbf{Configuring the Scala DSL} - The \textit{application.conf} file contains settings specific to the HIP/SLEEK verification systems, regression test construction and regression test execution. Some general system level settings such as output file extensions and time - outs are also specified.
+\bigskip
+
+\noindent
+It is important to note that friendliness and readability are primary strengths of YAML. The number of format characters is very low and, like Python, YAML's markup can use whitespace characters to indicate scope. Tabs are not permitted inside YAML and any YAML parser will throw errors and indicate that the file is not well - formed YAML \cite{yaml}. YAML's internal data structures like sequences, maps and objects are very much like those of dynamic languages like Python and Ruby. An example of YAML markup is shown below:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=400px]{figures/settings.png}
+  \caption{settings.yaml - used to configure the reporting tool}
+\end{figure}
+
+\noindent
+\textbf{Explanation} - The repository object contains the attributes remote and local. It also contains application specific settings such as time period and output directory name and location. The reasons for using YAML are:
+\begin{itemize}
+\item Human Readability
+\item Low number of format characters
+\item Language agnostic, can be parsed easily by different languages
+\item Sufficient types of data structures
+\item Not verbose like XML
+\item Faster than XML
+\item Pythonic syntax
+\end{itemize}
+
+% Deployment and Build Choices %
+\subsection{Deployment/Build Choices}
+The entire project is managed using \textbf{Simple Build Tool} or \textbf{SBT}. SBT is itself a DSL and interactive build tool which supports parallel running of tests/build tasks. The following options are supported by the system \cite{sbt}. \textbf{SBT} is an open - source build tool for \textbf{Scala} and \textbf{Java} projects, similar to Java's \textbf{Maven }or \textbf{Ant} or \textbf{GNU Make} for C and C++. \textbf{SBT} is the \textit{de facto} build tool for the Scala community.
+\bigskip
+
+\noindent
+The company that produces Scala, Typesafe recommends sbt as the best tool for building and maintaining Scala projects. Some of the key features because of which sbt was used during this project are as follows:
+\begin{itemize}
+\item Incremental compilation - The whole project does not need to be recompiled, new byte - code is generated from files that have changed since last compilation
+\item Interactive Shell - Easy to use and convenient to debug
+\item Native support for compiling Scala code and integrating with many Scala test frameworks
+\item Build descriptions written in a Scala DSL\cite{sbt}
+\item Dependency management and plugin management (similar to Maven)
+\end{itemize}
+ 
+The build configuration file \textbf{build.sbt} used in the project is shown below:
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=500px]{figures/build_sbt.png}
+  \caption{build.sbt - Build file to manage project}
+\end{figure}
+
+\noindent
+The above build file mentions project name, version information, publisher name and dependencies the project has such as \textbf{scalariform} for formatting source code, \textbf{JUnit} for unit testing and \textbf{Typesafe Config} for configuration via dependency injection.
+\bigskip
+
+\noindent
+The project supports several build targets for running different kinds of tests such as HIP/SLEEK, performance and regression tests. These targets can be changed or extended by editing the \textbf{src/main/scala/systemTestingDSL/Main.scala}. The targets supported are:
+\begin{itemize}
+\item \textbf{sbt "run sleek"} - Executes all sleek tests
+\item \textbf{sbt "run hip"} - Executes all hip tests
+\item \textbf{sbt "run buildReference"} - Constructs references for regression testing
+\item \textbf{sbt "run runReference"} - Runs tests against constructed references
+\item \textbf{sbt "run overrideReference"} - Re - processes references
+\item \textbf{sbt "run test"} - Executes unit tests written during development process.
+\item \textbf{sbt "run help"} - Shows supported operations
+\end{itemize}
+\newpage
