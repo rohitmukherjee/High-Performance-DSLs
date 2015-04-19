@@ -1,0 +1,37 @@
+\documentclass{beamer}
+
+\usetheme{Frankfurt}
+
+\title{Embedded DSL for System Testing via Scala}
+\subtitle{Final Year Project - Final Evaluation}
+\author{Rohit Mukherjee}
+\institute[National University of Singapore]
+
+\pgfdeclareimage[height=0.7cm]{university-logo}{figures/nus_logo}
+\logo{\pgfuseimage{university-logo}}
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+\begin{document}
+\input{title.tex}
+\input{introduction.tex}
+\AtBeginSection[]
+  {
+   
+    \frame%[allowframebreaks]%
+    {\frametitle{Outline}
+    \tableofcontents[
+    currentsection,
+    sectionstyle=show/hide,
+    subsectionstyle=show/show/hide]
+    }
+  }
+\input{design_choices.tex}
+\input{system_details.tex}
+\input{conclusion.tex}
+\input{appendices.tex}
+\input{references.tex}
+\end{document}
